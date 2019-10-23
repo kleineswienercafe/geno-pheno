@@ -11,14 +11,9 @@ $ virtualenv env
 ```
 
 ## VSCode with virtual env
-`CTRL+SHIFT+P` type workspace settings, then add:
-````json
-"settings": {
-    // python setup
-    "python.pythonPath": "env\\Scripts\\python.exe",
-    "python.venvPath": "${workspaceRoot}/env/"
-}
-````
+- `CTRL+SHIFT+P` type `python: select interpreter`
+- Select the local environment (starting with `./env/...`)
+
 Voilà, you're good to go
 
 ## Export excel files
@@ -32,5 +27,5 @@ Voilà, you're good to go
 ## Run Analysis
 
 ```
-geno-pheno.py --file "C:/nextcloud/projects/FlowMe/geno-pheno/MM_SS_IMZ Studie_Liste 210319_excluded_040719.txt"
+python geno-pheno.py --file "./data/MM_SS_IMZ Studie_Liste 210319_excluded_050719 Studie 0-2.txt"
 ```

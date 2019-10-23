@@ -119,22 +119,22 @@ class GpPlotInteractive(GpPlotTsne):
         self.hoverdata = data
 
 
-    # def plot(self):
+    def plot(self):
     
-    #     ylabels = self.data[self.config.categoryName]
+        ylabels = self.data[self.config.categoryName]
 
-    #     yls = sorted(list(set(ylabels)))
-    #     lut = dict(zip(yls, sns.color_palette("Set2", len(yls))))
-    #     rc = [lut[x] for x in ylabels]
+        yls = sorted(list(set(ylabels)))
+        lut = dict(zip(yls, sns.color_palette("Set2", len(yls))))
+        rc = [lut[x] for x in ylabels]
 
-    #     # draw
-    #     self.fig = plt.figure(figsize=(7, 7))
+        # draw
+        self.fig = plt.figure(figsize=(7, 7))
         
-    #     self.scp = plt.scatter(
-    #         self.data['x'], self.data['y'],
-    #         c = rc,
-    #         label = yls,
-    #     )
+        self.scp = plt.scatter(
+            self.data['x'], self.data['y'],
+            c = rc,
+            label = yls,
+        )
 
     """
     show exp ID and labels if the mouse is moved over a dot

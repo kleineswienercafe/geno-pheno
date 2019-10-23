@@ -6,11 +6,6 @@ from lib.vis import GpClusterMap
 from lib.vis import tsne
 from lib.vis import GpPlotRegression
 
-import matplotlib
-import matplotlib.pyplot as plt
-
-import seaborn as sns
-
 def main(args: dict):
 
     p = GpConfig()

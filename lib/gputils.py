@@ -5,7 +5,7 @@ class GpConfig:
     
     def __init__(self):
         self.show           = False
-        self.save           = True
+        self.save           = False
         self.interactive    = True
         self.title          = "GenoPheno - Studie (Debug)"
         self.plotmode       = "tsne"
