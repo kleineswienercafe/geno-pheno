@@ -464,6 +464,8 @@ class GpExperimentSheet(GpExps):
 
         exps = []
 
+        lidx = 0
+
         for line in data:
 
             d = dict()
@@ -487,7 +489,9 @@ class GpExperimentSheet(GpExps):
                 # elif gpe.nanCnt >= 10:
                 #     print(str(gpe.id) + " removed because it has " + str(gpe.nanCnt) + " NaNs")
 
-        print(str(len(exps)) + " experiments found")
+                lidx += 1
+
+        print(str(len(exps)) + " [" + str(lidx) + "] experiments found")
         
         return exps
 
