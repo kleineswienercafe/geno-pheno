@@ -28,6 +28,7 @@ class GpEntry:
         self.patientId = data['PAT Nummer']
         self.lineage = data['Lineage']
         self.majorSubtype = data['Major genetic subtype'] if 'Major genetic subtype' in data else ""
+        self.fab = data['FAB'] if 'FAB' in data else ""
         self.group = data['Group']
         self.mutations = data['Mutations'] if 'Mutations' in data else ""
         self.nanValue = nanValue
@@ -206,7 +207,9 @@ class GpEntry:
 
         if category == "mutations":
             return self.group + " - " + self.mutations
-        if category == "group":
+        elif category == "fab":
+            return self.fab
+        elif category == "group":
             return self.lineage + " - " + self.majorSubtype + " - " + self.group
         elif category == "majorSubtype":
             return self.lineage + " - " + self.majorSubtype
@@ -362,7 +365,8 @@ class GpExps:
         df['lineage']         = [x.lineage for x in self.exps]
         df['majorSubtype']    = [x.majorSubtype for x in self.exps]
         df['group']           = [x.group for x in self.exps]
-        df['mutations']       = [x.mutations for x in self.exps]
+        df['mutations']       = [x.mutations for x in self.exps]    # AML
+        df['fab']             = [x.fab for x in self.exps]          # AML
         df['category']        = self.observation_labels(categoryNames)
 
         return df

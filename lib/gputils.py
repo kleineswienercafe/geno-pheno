@@ -12,7 +12,7 @@ class GpConfig:
 
         # data setup
         self.lineage        = "all"             # default: all    [B|T|My|all]
-        self.categoryName   = "group"           # [category|group|majorSubtype|lineage|mutations]
+        self.categoryName   = "fab"           # [category|group|majorSubtype|lineage|mutations|fab]
         self.nanValue       = -.1               # default: float('NaN')
 
     @staticmethod
