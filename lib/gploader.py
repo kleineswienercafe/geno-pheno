@@ -27,8 +27,9 @@ class GpEntry:
         self.id = data['PAT Nummer'] + "-" + data['EingangsNr']
         self.patientId = data['PAT Nummer']
         self.lineage = data['Lineage']
-        self.majorSubtype = data['Major genetic subtype']
+        self.majorSubtype = data['Major genetic subtype'] if 'Major genetic subtype' in data else ""
         self.group = data['Group']
+        self.mutations = data['Mutations'] if 'Mutations' in data else ""
         self.nanValue = nanValue
 
         self.isBal = True if 'yes' in data['BAL'] else False
@@ -75,7 +76,10 @@ class GpEntry:
         self.data = np.array(self.data)
         
         # clean groups w.r.t. dworzak's definition
-        self.cleanGroups()
+        if not self.mutations:
+            self.cleanGroups()
+        else:
+            self.groupsToSubtypeAML()
 
         # check consistentcy
         # if data['BAL'] != 'yes' and data['BAL'] != 'no':
@@ -84,6 +88,24 @@ class GpEntry:
         #     print("[WARNING] " + self.id +
         #           " has an illegal MPAL value: " + data['BAL'])
         pass
+
+    def groupsToSubtypeAML(self):
+
+        # NOTE: this is my grouping - we should ask MDMD
+        self.majorSubtype = self.group
+
+        if 'KMT2A' in self.group:
+            self.majorSubtype = 'KMT2A'
+        if 'DS' in self.group:
+            self.majorSubtype = 'DS'
+        if self.group is 'complex':
+            self.majorSubtype = 'complex'
+        if 'ETV6' in self.group:
+            self.majorSubtype = 'ETV6'
+        if 'NUP98' in self.group:
+            self.majorSubtype = 'NUP98'
+
+        self.lineage = 'My'
 
     def cleanGroups(self):
 
@@ -182,6 +204,8 @@ class GpEntry:
 
     def observation_label(self, category = "majorSubtype"):
 
+        if category == "mutations":
+            return self.group + " - " + self.mutations
         if category == "group":
             return self.lineage + " - " + self.majorSubtype + " - " + self.group
         elif category == "majorSubtype":
@@ -338,6 +362,7 @@ class GpExps:
         df['lineage']         = [x.lineage for x in self.exps]
         df['majorSubtype']    = [x.majorSubtype for x in self.exps]
         df['group']           = [x.group for x in self.exps]
+        df['mutations']       = [x.mutations for x in self.exps]
         df['category']        = self.observation_labels(categoryNames)
 
         return df
@@ -401,14 +426,15 @@ class GpExperimentSheet(GpExps):
 
         print(str(len(self.exps)) + " experiments are considered")
 
+    # @depricated?!
     def filterHybridMy(self):
         self.exps = [x for x in self.exps 
-        if  x.majorSubtype != 'T/My'    and
-            x.majorSubtype != 'T/M'     and
-            x.majorSubtype != 'B/My'    and
-            x.majorSubtype != 'My/B'    and
-            x.majorSubtype != 'MBT'
-            ]
+            if  x.majorSubtype != 'T/My'    and
+                x.majorSubtype != 'T/M'     and
+                x.majorSubtype != 'B/My'    and
+                x.majorSubtype != 'My/B'    and
+                x.majorSubtype != 'MBT'
+                ]
 
         print(str(len(self.exps)) + " experiments after filtering hybrid")
 

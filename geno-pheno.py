@@ -3,8 +3,9 @@ from lib.gputils import GpConfig
 from lib.vis import GpPlotTsne
 from lib.vis import GpPlotInteractive
 from lib.vis import GpClusterMap
-from lib.vis import tsne
 from lib.vis import GpPlotRegression
+from lib.vis import applytsne
+from lib.vis import applyumap
 
 def main(args: dict):
 
@@ -18,6 +19,8 @@ def main(args: dict):
         gpd.title = " 0-2"
         analyze(gpd)
         visualize([gpd], p)
+    elif args['aml']:
+        batchAML(p)
     else:
         batch(p)
 
@@ -49,10 +52,39 @@ def batch(c: GpConfig = GpConfig()):
     # check(gpds)
     visualize(gpds, c)
 
+
+def batchAML(c: GpConfig = GpConfig()):
+    import os
+
+    cd = os.path.dirname(
+        os.path.realpath(__file__))
+
+    msg = ""
+    gpds = list()
+
+    s1 = cd + "/data/Geno_Pheno AML 231019 Studie 0-1.txt"
+    gpd = load(s1)
+    gpd.title = msg + " AML 0-1"
+    gpds.append(gpd)
+
+    s2 = cd + "/data/Geno_Pheno AML 231019 Studie 0-2.txt"
+    gpd = load(s2)
+    gpd.title = msg + " AML 0-2"
+    gpds.append(gpd)
+
+    s3 = cd + "/data/Geno_Pheno AML 231019 Studie 0-6.txt"
+    gpd = load(s3)
+    gpd.title = msg + " AML 0-6"
+    gpds.append(gpd)
+
+    ## uncomment to check if our data is fine
+    # check(gpds)
+    visualize(gpds, c)
+
 def load(filePath: str, c: GpConfig = GpConfig()):
 
     gpd = GpExperimentSheet.fromFile(filePath, nanValue=c.nanValue, lineage=c.lineage)
-    gpd.filterHybridMy()
+    # gpd.filterHybridMy()
 
     return gpd
 
@@ -60,6 +92,7 @@ def visualize(gpds: list, c: GpConfig = GpConfig()):
     from sklearn.manifold import TSNE
     from copy import deepcopy
     import lib.logit as lg
+
 
     plotter = []
     si = []
@@ -85,13 +118,18 @@ def visualize(gpds: list, c: GpConfig = GpConfig()):
             elif "6" in gpd.title:
                 plotter.cmap = ["#ffffff", "#70C3E0", "#7992A6", "#7E7989", "#83606D", "#884750", "#8C2F33", "#911616"]
 
-        elif c.plotmode == "tsne":
+        elif c.plotmode == "tsne" or c.plotmode == "umap":
 
-            c.title = "t-SNE" + gpd.title
+            c.title = c.plotmode + gpd.title
             # gpd.impaint_nans_within_groups()
 
             pd = gpd.pdata(categoryNames=c.categoryName)
-            embedding = tsne(pd, gpd.header())
+
+            if c.plotmode == "tsne":
+                embedding = applytsne(pd, gpd.header())
+            elif c.plotmode == "umap":
+                embedding = applyumap(pd, gpd.header())
+
             pd['x'] = embedding[:,0]
             pd['y'] = embedding[:,1]
 
@@ -99,7 +137,7 @@ def visualize(gpds: list, c: GpConfig = GpConfig()):
             # cc = deepcopy(c)
             # tsne_show_groups(gpd, embedding, cc)
 
-            c.title = "t-SNE" + gpd.title
+            c.title = c.plotmode + gpd.title
 
             # show interactive plot
             if c.interactive:
@@ -217,6 +255,7 @@ if __name__ == "__main__":
                         help='file path to a valid Geno-Pheno csv')
     parser.add_argument('--plot-mode', dest='plotmode', type=str,
                         help='plot mode [clustermap|tsne|analysis]')
+    parser.add_argument('--aml', action='store_true')
 
     # get args and make a dict from the namespace
     args = vars(parser.parse_args())

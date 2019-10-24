@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def tsne(pd, header):
+def applytsne(pd, header):
     
     tsne = TSNE(
         # n_iter=1000, 
@@ -19,6 +19,19 @@ def tsne(pd, header):
         )
 
     embedding = tsne.fit_transform(pd[header])
+    return embedding
+
+def applyumap(pd, header):
+    import umap
+
+    reducer = umap.UMAP(
+        n_neighbors=5,
+        # min_dist=0.25,
+        random_state=42,
+        metric='hamming'
+        )
+    embedding = reducer.fit_transform(pd[header])
+
     return embedding
 
 class GpPlot:

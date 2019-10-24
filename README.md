@@ -1,6 +1,6 @@
-# Geno Pheno
+# Geno Pheno - DatenWolf™
 
-python scripts that analyze the geno-pheno dataset.
+This repository turns St. Anna's geno-pheno dataset into beautiful plots.
 
 ## Setup
 create a virtual env
@@ -29,3 +29,5 @@ Voilà, you're good to go
 ```
 python geno-pheno.py --file "./data/MM_SS_IMZ Studie_Liste 210319_excluded_050719 Studie 0-2.txt"
 ```
+
+![mascot](https://en.wikipedia.org/wiki/Tweety#/media/File:Tweety.svg)
