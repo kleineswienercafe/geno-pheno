@@ -30,4 +30,4 @@ Voilà, you're good to go
 python geno-pheno.py --file "./data/MM_SS_IMZ Studie_Liste 210319_excluded_050719 Studie 0-2.txt"
 ```
 
-![mascot](https://en.wikipedia.org/wiki/Tweety#/media/File:Tweety.svg)
+![mascot](https://upload.wikimedia.org/wikipedia/en/thumb/0/02/Tweety.svg/133px-Tweety.svg.png)
