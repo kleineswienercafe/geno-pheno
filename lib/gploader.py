@@ -18,7 +18,7 @@ def reduceToKey(str: str, key: str):
     
     return str
 
-class GpEntry:
+class GpEntry(dict):
     """ Stores the statistics of an experiment """
 
     def __init__(self, data: dict, nanValue: int = float('NaN')):
@@ -32,6 +32,7 @@ class GpEntry:
         self.group = data['Group']
         self.mutations = data['Mutations'] if 'Mutations' in data else ""
         self.nanValue = nanValue
+        self.sex = data['Geschlecht']
 
         self.isBal = True if 'yes' in data['BAL'] else False
         self.isMpal = True if 'yes' in data['MPAL'] else False
@@ -207,12 +208,14 @@ class GpEntry:
 
         if category == "mutations":
             return self.group + " - " + self.mutations
-        elif category == "fab":
-            return self.fab
         elif category == "group":
             return self.lineage + " - " + self.majorSubtype + " - " + self.group
         elif category == "majorSubtype":
             return self.lineage + " - " + self.majorSubtype
+        elif category in vars(self):
+            return self.__dict__[category]
+
+        print("Warning: " + category + " is unknown")
 
         return self.lineage
 

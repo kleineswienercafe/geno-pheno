@@ -137,7 +137,7 @@ def visualize(gpds: list, c: GpConfig = GpConfig()):
             # cc = deepcopy(c)
             # tsne_show_groups(gpd, embedding, cc)
 
-            c.title = c.plotmode + gpd.title
+            c.title = c.plotmode + gpd.title + " " + c.categoryName
 
             # show interactive plot
             if c.interactive:
