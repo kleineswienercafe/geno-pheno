@@ -68,7 +68,7 @@ class GpEntry(dict):
 
         for m in self.marker:
             try:
-                v = int(data[m])
+                v = int(float(data[m])) # float cast if csv contains 0.0
                 self.data.append(v)
             except ValueError:
                 self.data.append(nanValue)

@@ -62,17 +62,17 @@ def batchAML(c: GpConfig = GpConfig()):
     msg = ""
     gpds = list()
 
-    s1 = cd + "/data/Geno_Pheno AML 241019 Studie 0-1.txt"
+    s1 = cd + "/data/Geno_Pheno AML 291019 geno-pheno 0-1.txt"
     gpd = load(s1)
     gpd.title = msg + " AML 0-1"
     gpds.append(gpd)
 
-    s2 = cd + "/data/Geno_Pheno AML 241019 Studie 0-2.txt"
+    s2 = cd + "/data/Geno_Pheno AML 291019 geno-pheno 0-2.txt"
     gpd = load(s2)
     gpd.title = msg + " AML 0-2"
     gpds.append(gpd)
 
-    s3 = cd + "/data/Geno_Pheno AML 241019 Studie 0-6.txt"
+    s3 = cd + "/data/Geno_Pheno AML 291019 geno-pheno 0-6.txt"
     gpd = load(s3)
     gpd.title = msg + " AML 0-6"
     gpds.append(gpd)
