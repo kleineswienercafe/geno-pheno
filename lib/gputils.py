@@ -8,7 +8,7 @@ class GpConfig:
         self.save           = True
         self.interactive    = False
         self.title          = "GenoPheno - Studie (Debug)"
-        self.plotmode       = "umap"            # [tsne|umap|clustermap]
+        self.plotmode       = "tsne"            # [tsne|umap|clustermap]
 
         # data setup
         self.lineage        = "all"             # default: all    [B|T|My|all]

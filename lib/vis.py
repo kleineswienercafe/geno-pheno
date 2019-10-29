@@ -104,11 +104,13 @@ class GpPlotTsne(GpPlot):
             col = self.cmap[idx % len(self.cmap)] if self.cmap else None
             m = self.markers[idx % len(self.markers)] if self.markers else None
 
+            ccna = cc if cc else 'unknown'
+
             self.scp = self.ax().scatter(
                 cg['x'], cg['y'], 
                 s = 35 if col == self.bgdcol else 70,
                 c = col,
-                label = cc,
+                label = ccna,
                 marker = m,
                 edgecolors = 'white', linewidth = 0.5,
                 zorder = 0 if col == self.bgdcol else 1
