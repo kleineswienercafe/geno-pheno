@@ -20,6 +20,13 @@ python geno-pheno.py --file "./data/MM_SS_IMZ Studie_Liste 210319_excluded_05071
 ```
 
 ## Export excel files
+
+we have now scripted the conversion from excel files (because there were more updates than expected). You can turn the excel file into a valid csv using:
+````cmd
+python convert-excel.py --file ./data/Geno_Pheno AML 291019.xlsx
+````
+
+### Manually export excel files
 - In Excel choose `Save as > Unicode Text (.txt)`
 - Open exported file in Notepad++
 - Replace: `;` with `,`
