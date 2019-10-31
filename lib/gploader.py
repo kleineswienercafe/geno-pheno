@@ -23,6 +23,8 @@ class GpEntry(dict):
 
     def __init__(self, data: dict, nanValue: int = float('NaN')):
         
+        self.visible = True
+
         # get all markers
         self.id = data['PAT Nummer'] + "-" + data['EingangsNr']
         self.patientId = data['PAT Nummer']
@@ -81,7 +83,10 @@ class GpEntry(dict):
         if not self.mutations:
             self.cleanGroups()
         else:
+            # NOTE: in AML there are empty mutations which won't do what's expected here...
             self.groupsToSubtypeAML()
+        
+        self.cleanFab()
 
         # check consistentcy
         # if data['BAL'] != 'yes' and data['BAL'] != 'no':
@@ -90,6 +95,20 @@ class GpEntry(dict):
         #     print("[WARNING] " + self.id +
         #           " has an illegal MPAL value: " + data['BAL'])
         pass
+
+    def cleanFab(self):
+
+        fab = self.fab.strip().lower()
+
+        if 'm3' in fab:
+            self.fab = 'M3'
+        if 'm5' in fab:
+            self.fab = 'M5'
+        if 'jmml' == fab or \
+            'mds-eb' == fab or \
+            'mpal' == fab or \
+            not self.fab:
+            self.visible = False
 
     def groupsToSubtypeAML(self):
 
@@ -371,6 +390,7 @@ class GpExps:
         df['mutations']       = [x.mutations for x in self.exps]    # AML
         df['fab']             = [x.fab for x in self.exps]          # AML
         df['category']        = self.observation_labels(categoryNames)
+        df['visible']         = [x.visible for x in self.exps]
 
         return df
 

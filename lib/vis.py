@@ -96,6 +96,8 @@ class GpPlotTsne(GpPlot):
 
         self.fig = plt.figure(figsize=(7,7))
 
+        self.data = self.data[self.data.visible]
+
         classes = list(set(self.data['category']))
         classes.sort()
 
