@@ -6,7 +6,8 @@ class GpConfig:
     def __init__(self):
         self.show           = False
         self.save           = True
-        self.interactive    = False
+        self.interactive    = True
+        self.svg            = False
         self.title          = "GenoPheno - Studie (Debug)"
         self.plotmode       = "umap"            # [tsne|umap|clustermap]
 

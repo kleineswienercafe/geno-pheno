@@ -64,13 +64,15 @@ class GpPlot:
             plt.show()
 
         if self.config.save:
-            fps = self.config.resultDir() + self.config.title + ".svg"
-            fpp = self.config.resultDir() + self.config.title + ".png"
 
-            plt.savefig(fps, bbox_extra_artists=self.extra_artists, bbox_inches='tight')
+            if self.config.svg:
+                fps = self.config.resultDir() + self.config.title + ".svg"
+                plt.savefig(fps, bbox_extra_artists=self.extra_artists, bbox_inches='tight')
+
+            fpp = self.config.resultDir() + self.config.title + ".png"
             plt.savefig(fpp, dpi=300, bbox_extra_artists=self.extra_artists,
                         bbox_inches='tight')
-            print("figure saved to: " + fps)
+            print("figure saved to: " + fpp)
 
     
 
@@ -138,6 +140,8 @@ class GpPlotInteractive(GpPlotTsne):
 
     def plot(self):
     
+        self.data = self.data[self.data.visible]
+
         ylabels = self.data[self.config.categoryName]
 
         yls = sorted(list(set(ylabels)))
@@ -193,7 +197,7 @@ class GpPlotInteractive(GpPlotTsne):
         df = self.hoverdata
         cp = df.loc[df['x'] == pos[0]].loc[df['y'] == pos[1]]
 
-        text = cp.index[0] + " | " + cp["lineage"][0] + " - " + cp["majorSubtype"][0] + " - " + cp["group"][0]
+        text = cp.index[0] + " | " + cp["fab"][0] # cp["lineage"][0] + " - " + cp["majorSubtype"][0] + " - " + cp["group"][0]
 
         return text
 
