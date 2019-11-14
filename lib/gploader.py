@@ -405,16 +405,20 @@ class GpExps:
         gci = []
         gcl = []
         lc = self.exps[0].observation_label(category)
+        
+        # add 0 index (guarantees that data is not cropped)
+        gci.append(0)
+        gcl.append('')
 
         for idx, exp in enumerate(self.exps):
             cc = exp.observation_label(category)
             if lc != cc:
                 gci.append(idx)
-                gcl.append(self.exps[idx-1].group)
+                gcl.append(lc if lc else 'NA')
                 lc = cc
 
-        gci.append(len(self.exps)-1)
-        gcl.append(self.exps[-1].group)
+        gci.append(len(self.exps))
+        gcl.append(lc)
 
         return gci, gcl
 

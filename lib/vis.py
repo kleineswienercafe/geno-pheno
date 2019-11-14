@@ -7,16 +7,16 @@ import seaborn as sns
 
 
 def applytsne(pd, header):
-    
+
     tsne = TSNE(
-        # n_iter=1000, 
-        # learning_rate=30, 
-        # early_exaggeration=5, 
+        # n_iter=1000,
+        # learning_rate=30,
+        # early_exaggeration=5,
         perplexity=10,
-        random_state=42, 
+        random_state=42,
         # method="exact",
         init="pca"
-        )
+    )
 
     embedding = tsne.fit_transform(pd[header])
     return embedding
@@ -29,7 +29,7 @@ def applyumap(pd, header):
         # min_dist=0.25,
         random_state=42,
         metric='hamming'
-        )
+    )
     embedding = reducer.fit_transform(pd[header])
 
     return embedding
@@ -37,7 +37,7 @@ def applyumap(pd, header):
 class GpPlot:
 
     def __init__(self, c: GpConfig = GpConfig()):
-        
+
         self.config = c
         self.fig = None
         self.scp = None
@@ -74,18 +74,16 @@ class GpPlot:
                         bbox_inches='tight')
             print("figure saved to: " + fpp)
 
-    
-
 class GpPlotTsne(GpPlot):
-    
+
     def __init__(self, data, c: GpConfig = GpConfig()):
-        
+
         GpPlot.__init__(self, c)
 
         self.data = data
 
         self.markers = ('o', 'v',  '8', 's', '<',
-                   'p', 'h', '^', '>', 'D', 'd', 'H', '*')
+                        'p', 'h', '^', '>', 'D', 'd', 'H', '*')
 
         # custom colormap
         self.cmap = None
@@ -96,7 +94,7 @@ class GpPlotTsne(GpPlot):
 
     def plot(self):
 
-        self.fig = plt.figure(figsize=(7,7))
+        self.fig = plt.figure(figsize=(7, 7))
 
         self.data = self.data[self.data.visible]
 
@@ -111,7 +109,7 @@ class GpPlotTsne(GpPlot):
             ccna = cc if cc else 'unknown'
 
             self.scp = self.ax().scatter(
-                cg['x'], cg['y'], 
+                cg['x'], cg['y'],
                 s = 35 if col == self.bgdcol else 70,
                 c = col,
                 label = ccna,
@@ -119,7 +117,7 @@ class GpPlotTsne(GpPlot):
                 edgecolors = 'white', linewidth = 0.5,
                 zorder = 0 if col == self.bgdcol else 1
                 # ax = self.ax()
-                )
+            )
 
         self.ax().get_xaxis().set_visible(False)
         self.ax().get_yaxis().set_visible(False)
@@ -137,9 +135,8 @@ class GpPlotInteractive(GpPlotTsne):
         self.annotation = None
         self.hoverdata = data
 
-
     def plot(self):
-    
+
         self.data = self.data[self.data.visible]
 
         ylabels = self.data[self.config.categoryName]
@@ -150,7 +147,7 @@ class GpPlotInteractive(GpPlotTsne):
 
         # draw
         self.fig = plt.figure(figsize=(7, 7))
-        
+
         self.scp = plt.scatter(
             self.data['x'], self.data['y'],
             c = rc,
@@ -173,9 +170,9 @@ class GpPlotInteractive(GpPlotTsne):
                     self.annotation.set_visible(True)
                     self.fig.canvas.draw_idle()
             elif vis:
-                    self.annotation.set_visible(False)
-                    self.fig.canvas.draw_idle()
-    
+                self.annotation.set_visible(False)
+                self.fig.canvas.draw_idle()
+
     def update_annotation(self, ind):
 
         idx = ind["ind"][0]
@@ -193,7 +190,7 @@ class GpPlotInteractive(GpPlotTsne):
         self.annotation.get_bbox_patch().set_alpha(0.7)
 
     def get_text(self, pos):
- 
+
         df = self.hoverdata
         cp = df.loc[df['x'] == pos[0]].loc[df['y'] == pos[1]]
 
@@ -206,20 +203,20 @@ class GpPlotInteractive(GpPlotTsne):
     this annotation is persistant in contrast to hover annotations
     """
     def clicked(self, event):
-        
+
         if event.inaxes == self.ax():
 
             c, ind = self.scp.contains(event)
 
             if c:
-                
+
                 if len(ind["ind"]) > 0:
                     idx = ind["ind"][0]
                     pos = self.scp.get_offsets()[idx]
                     txt = self.get_text(pos)
-                    self.ax().annotate(txt, xy=pos, xytext= pos + (20, 20), textcoords="offset points",
-                                        bbox=dict(boxstyle="round", fc="w"),
-                                        arrowprops=dict(arrowstyle="->"))
+                    self.ax().annotate(txt, xy=pos, xytext=pos + (20, 20), textcoords="offset points",
+                                       bbox=dict(boxstyle="round", fc="w"),
+                                       arrowprops=dict(arrowstyle="->"))
 
     """
     we only support live rendering here...
@@ -229,8 +226,8 @@ class GpPlotInteractive(GpPlotTsne):
         self.fig.suptitle(self.config.title, fontsize=16)
 
         self.annotation = self.ax().annotate("", xy=(0, 0), xytext=(20, 20), textcoords="offset points",
-                            bbox=dict(boxstyle="round", fc="w"),
-                            arrowprops=dict(arrowstyle="->"))
+                                             bbox=dict(boxstyle="round", fc="w"),
+                                             arrowprops=dict(arrowstyle="->"))
 
         self.annotation.set_visible(False)
 
@@ -242,9 +239,9 @@ class GpPlotInteractive(GpPlotTsne):
 class GpClusterMap(GpPlot):
 
     def __init__(self, gpd, c: GpConfig = GpConfig()):
-        
+
         GpPlot.__init__(self, c)
-        
+
         self.gpd = gpd
         self.cmap = None
 
@@ -253,6 +250,7 @@ class GpClusterMap(GpPlot):
         data = self.gpd.data()
         xlabels = self.gpd.header()
         ylabels = self.gpd.observation_labels(self.config.categoryName)
+        ylabels = [y if y else 'NA' for y in ylabels]
 
         # colorize the rows
         yls = sorted(list(set(ylabels)))
@@ -264,26 +262,25 @@ class GpClusterMap(GpPlot):
         else:
             self.cmap = sns.color_palette(self.cmap).as_hex()
 
-
         # self.fig = plt.figure()
         g = sns.clustermap(data,
-                        xticklabels=xlabels, 
-                        yticklabels=[],
-                        row_colors=rc,
-                        col_cluster=False,
-                        row_cluster=False,
-                        cmap=self.cmap)
+                           xticklabels=xlabels,
+                           yticklabels=[],
+                           row_colors=rc,
+                           col_cluster=False,
+                           row_cluster=False,
+                           cmap=self.cmap)
 
         self.fig = g.fig
 
         # https://xkcd.com/833/
         ax = g.ax_heatmap
-        
+
         # add group names
         gci, sparse_ylabels = self.gpd.group_changed_index(self.config.categoryName)
         ax.set_yticks(gci)
         ax.set_yticklabels(sparse_ylabels, fontsize=6)
-        
+
         ax.set_xlabel("Marker")
         ax.set_ylabel("Patients")
 
@@ -302,11 +299,11 @@ class GpClusterMap(GpPlot):
 
         # add black lines
         gci, _ = self.gpd.group_changed_index(self.config.categoryName)    # do it again
-        ax.hlines(  gci, 
-                    *ax.get_xlim(),
-                    linewidth=0.5
-                    # colors=[0, 0, 0, .5]
-                    )
+        ax.hlines(gci,
+                  *ax.get_xlim(),
+                  linewidth=0.5
+                  # colors=[0, 0, 0, .5]
+                  )
         # ax.axhline(linewidth=5)
 
 class GpPlotRegression(GpPlot):
@@ -321,21 +318,22 @@ class GpPlotRegression(GpPlot):
         import numpy as np
         self.fig = plt.figure()
         g = sns.heatmap(self.data,
-                   #square = True, # fixed aspect ratio of elements
-                   cmap=sns.diverging_palette(220, 20, n=99),
-                   center = 0,vmax = 2.5, vmin = -2.5,
-                   yticklabels=1,
-                   xticklabels=self.ncat,
-                   )
-        g.set_xticklabels(g.get_xmajorticklabels(), fontsize = 6)
-        g.set_ylim([0,self.data.shape[0]]) # workaround https://github.com/matplotlib/matplotlib/issues/14675
+                        # square = True, # fixed aspect ratio of elements
+                        cmap=sns.diverging_palette(220, 20, n=99),
+                        center=0, vmax=2.5, vmin=-2.5,
+                        yticklabels=1,
+                        xticklabels=self.ncat,
+                        )
+        g.set_xticklabels(g.get_xmajorticklabels(), fontsize=6)
+        # workaround https://github.com/matplotlib/matplotlib/issues/14675
+        g.set_ylim([0, self.data.shape[0]])
         # add black lines
-        g.vlines(   np.arange(start=0,stop=self.data.shape[1],step = self.ncat), 
-                    *g.get_ylim(),
-                    linewidth=0.5,
-                    colors=[0, 0, 0, .5]
-                    )
+        g.vlines(np.arange(start=0, stop=self.data.shape[1], step=self.ncat),
+                 *g.get_ylim(),
+                 linewidth=0.5,
+                 colors=[0, 0, 0, .5]
+                 )
 
         # move colorbar
-        #g.cax.set_position((0.92,0.12,0.03,0.1))
+        # g.cax.set_position((0.92,0.12,0.03,0.1))
         #self.fig = g
