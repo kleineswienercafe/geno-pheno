@@ -6,7 +6,7 @@ This repository turns St. Anna's geno-pheno dataset into beautiful plots.
 create a virtual env
 ```cmd
 $ pip install virtualenv
-$ cd python
+$ cd THIS_REPOSITORY
 $ virtualenv env
 ```
 
