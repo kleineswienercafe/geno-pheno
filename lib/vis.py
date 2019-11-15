@@ -262,10 +262,12 @@ class GpClusterMap(GpPlot):
         else:
             self.cmap = sns.color_palette(self.cmap).as_hex()
 
+        patientnames = self.gpd.observation_labels("id")
+
         # self.fig = plt.figure()
         g = sns.clustermap(data,
                            xticklabels=xlabels,
-                           yticklabels=[],
+                           yticklabels=patientnames,
                            row_colors=rc,
                            col_cluster=False,
                            row_cluster=False,
