@@ -57,7 +57,7 @@ class GpEntry(dict):
         'CD24', 'CD38', 'iCD79a', 'CD22', 'iCD22', 'CD19', 'CD20', 'CD11a', 'CD13', 
         'CD33', 'CD15', 'CD56', 'CD2', 'CD11b', 'CD7', 'CD5', 'CD117', 
         'CD11c', 'CD65', 'iCD3', 'CD64', 'sCD3', 'CD14', 'CRLF2',
-        'iIgM', 'ikappa', 'ilambda', 'MPO', 'HLADR', 'NG2', 'CD371']
+        'iIgM', 'ikappa', 'ilambda', 'MPO', 'HLADR', 'NG2', 'CD371', 'LZ']
 
         # self.marker = ['CD123', 'CD45', 'CD34', 'CD44', 'CD99', 'CD10',
         #                'CD24', 'iCD79a', 'CD22', 'iCD22', 'CD20', 'CD11a', 'CD13',

@@ -6,15 +6,15 @@ class GpConfig:
     def __init__(self):
         self.show           = False
         self.save           = True
-        self.interactive    = True
+        self.interactive    = False
         self.svg            = False
         self.title          = "GenoPheno - Studie (Debug)"
-        self.plotmode       = "clustermap"            # [tsne|umap|clustermap]
+        self.plotmode       = "umap"            # [tsne|umap|clustermap]
 
         # data setup
         self.lineage        = "all"             # default: all    [B|T|My|all]
         self.categoryName   = "fab"           # [category|group|majorSubtype|lineage|mutations|fab]
-        self.nanValue       = -1               # default: float('NaN')
+        self.nanValue       = -.1               # default: float('NaN')
 
     @staticmethod
     def resultDir():
