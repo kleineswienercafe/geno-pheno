@@ -1,4 +1,4 @@
-
+from lib.gputils import GpConfig
 import numpy as np
 
 def clean(s: str):
@@ -52,12 +52,30 @@ class GpEntry(dict):
         # get markers of interest
         # self.marker = [m for m in data.keys() if "CD" in m]
 
-        # default
-        self.marker = ['CD123', 'CD45', 'CD34', 'CD44', 'CD99', 'CD10', 
-        'CD24', 'CD38', 'iCD79a', 'CD22', 'iCD22', 'CD19', 'CD20', 'CD11a', 'CD13', 
-        'CD33', 'CD15', 'CD56', 'CD2', 'CD11b', 'CD7', 'CD5', 'CD117', 
-        'CD11c', 'CD65', 'iCD3', 'CD64', 'sCD3', 'CD14', 'CRLF2',
-        'iIgM', 'ikappa', 'ilambda', 'MPO', 'HLADR', 'NG2', 'CD371', 'LZ']
+        if GpConfig().dataset == 'AML':
+            # default
+            self.marker = ['CD123', 'CD45', 'CD34', 'CD99', 'CD10',
+                'CD24', 'CD38', 'iCD79a', 'CD22', 'iCD22', 'CD19', 'CD11a', 'CD13',
+                'CD33', 'CD15', 'CD56', 'CD2', 'CD11b', 'CD7', 'CD5', 'CD117',
+                'CD11c', 'CD65', 'iCD3', 'CD64', 'CD14', 'CRLF2',
+                'MPO', 'HLADR', 'NG2', 'CD371', 'LZ', 'CD41', 'CD61']
+
+            # a lot of NaNs
+            # self.marker += ['CD44', 'CD184', 'CD4', 'CD36', 'CD71']
+
+            # # many NaNs
+            # self.marker += ['VNN2', 'iIgM', 'ilambda', 'ikappa']
+
+            # # only ones
+            # self.marker += ['CD20', 'sCD3']
+
+        else:
+            # default
+            self.marker = ['CD123', 'CD45', 'CD34', 'CD44', 'CD99', 'CD10', 
+                'CD24', 'CD38', 'iCD79a', 'CD22', 'iCD22', 'CD19', 'CD20', 'CD11a', 'CD13', 
+                'CD33', 'CD15', 'CD56', 'CD2', 'CD11b', 'CD7', 'CD5', 'CD117', 
+                'CD11c', 'CD65', 'iCD3', 'CD64', 'sCD3', 'CD14', 'CRLF2',
+                'iIgM', 'ikappa', 'ilambda', 'MPO', 'HLADR', 'NG2', 'CD371']
 
         # self.marker = ['CD123', 'CD45', 'CD34', 'CD44', 'CD99', 'CD10',
         #                'CD24', 'iCD79a', 'CD22', 'iCD22', 'CD20', 'CD11a', 'CD13',

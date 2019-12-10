@@ -10,6 +10,7 @@ class GpConfig:
         self.svg            = False
         self.title          = "GenoPheno - Studie (Debug)"
         self.plotmode       = "umap"            # [tsne|umap|clustermap]
+        self.dataset        = "AML"             # [ALL | AML]
 
         # data setup
         self.lineage        = "all"             # default: all    [B|T|My|all]

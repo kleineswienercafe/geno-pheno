@@ -20,6 +20,7 @@ def main(args: dict):
         analyze(gpd)
         visualize([gpd], p)
     elif args['aml']:
+        p.dataset = 'AML'
         batchAML(p)
     else:
         batch(p)
@@ -83,8 +84,12 @@ def batchAML(c: GpConfig = GpConfig()):
 
 def load(filePath: str, c: GpConfig = GpConfig()):
 
+    if c.plotmode == "clustermap":
+        c.nanValue = -1
+
     gpd = GpExperimentSheet.fromFile(filePath, nanValue=c.nanValue, lineage=c.lineage)
     # gpd.filterHybridMy()
+    # gpd.impaint_nans_within_groups()
 
     return gpd
 
@@ -122,8 +127,7 @@ def visualize(gpds: list, c: GpConfig = GpConfig()):
         elif c.plotmode == "tsne" or c.plotmode == "umap":
 
             c.title = c.plotmode + gpd.title
-            # gpd.impaint_nans_within_groups()
-
+            
             pd = gpd.pdata(categoryNames=c.categoryName)
 
             if c.plotmode == "tsne":
