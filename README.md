@@ -3,11 +3,14 @@
 This repository turns St. Anna's geno-pheno dataset into beautiful plots.
 
 ## Setup
-create a virtual env
-```cmd
+create a virtual env & start it
+```bash
 $ pip install virtualenv
 $ cd THIS_REPOSITORY
 $ virtualenv env
+
+# VSCode does this automatically
+$ source env/bin/activate
 ```
 
 ## VSCode with virtual env
