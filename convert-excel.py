@@ -22,7 +22,7 @@ def load(filepath: str, sheetname: str):
         lines = xlsx.to_csv(
             # header=False, 
             sep='\t',
-            index=False).split('\n')
+            index=False).split(r"[\n\r]")
 
         header = True
 
