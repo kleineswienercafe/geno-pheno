@@ -98,7 +98,7 @@ class GpEntry(dict):
         self.data = np.array(self.data)
         
         # clean groups w.r.t. dworzak's definition
-        if not self.mutations:
+        if not self.mutations and not GpConfig().ignoreMutation:
             self.cleanGroups()
         else:
             # NOTE: in AML there are empty mutations which won't do what's expected here...
@@ -128,7 +128,15 @@ class GpEntry(dict):
             not self.fab:
             self.visible = False
 
+        # there are some case errors
+        if 'm4eo' == fab:
+            self.fab = 'M4Eo'
+
     def groupsToSubtypeAML(self):
+
+        if self.group == 'unkown':
+            self.group = 'unknown'
+
 
         # NOTE: this is my grouping - we should ask MDMD
         self.majorSubtype = self.group
@@ -137,7 +145,7 @@ class GpEntry(dict):
             self.majorSubtype = 'KMT2A'
         if 'DS' in self.group:
             self.majorSubtype = 'DS'
-        if self.group is 'complex':
+        if self.group == 'complex':
             self.majorSubtype = 'complex'
         if 'ETV6' in self.group:
             self.majorSubtype = 'ETV6'
@@ -462,7 +470,7 @@ class GpExperimentSheet(GpExps):
         self.fname = self.fname.split("\\")[-1]
 
         # filter experiments
-        if lineage is not "all":
+        if lineage != "all":
             exps = [x for x in exps if x.lineage == lineage]              # filter lineage
         exps = [x for x in exps if x.lineage]                             # non-empty lineage
         exps = [x for x in exps if x.patientId != '40956']                # this patient has illegal values

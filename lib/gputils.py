@@ -17,6 +17,9 @@ class GpConfig:
         self.categoryName   = "fab"           # [category|group|majorSubtype|lineage|mutations|fab]
         self.nanValue       = -.1               # default: float('NaN')
 
+        # fix of fix: ignore MDMD categorization
+        self.ignoreMutation = True
+
     @staticmethod
     def resultDir():
         return os.path.dirname(os.path.realpath(__file__)) + "/../img/"
