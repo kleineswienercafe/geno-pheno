@@ -134,23 +134,27 @@ class GpEntry(dict):
 
     def groupsToSubtypeAML(self):
 
-        if self.group == 'unkown':
-            self.group = 'unknown'
-
-
         # NOTE: this is my grouping - we should ask MDMD
         self.majorSubtype = self.group
 
         if 'KMT2A' in self.group:
             self.majorSubtype = 'KMT2A'
-        if 'DS' in self.group:
-            self.majorSubtype = 'DS'
+        if 'DS_AML' in self.group:
+            self.majorSubtype = 'DS_AML'
         if self.group == 'complex':
             self.majorSubtype = 'complex'
         if 'ETV6' in self.group:
             self.majorSubtype = 'ETV6'
         if 'NUP98' in self.group:
             self.majorSubtype = 'NUP98'
+
+        if self.group == 'unkown':
+            self.group = 'unknown'
+
+        if self.group == 'unknown' or \
+            self.group == 'My' or \
+            self.group == 'no_fusion_gene':
+            self.majorSubtype = 'other'
 
         self.lineage = 'My'
 

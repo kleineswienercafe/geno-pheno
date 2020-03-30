@@ -14,7 +14,7 @@ class GpConfig:
 
         # data setup
         self.lineage        = "all"             # default: all    [B|T|My|all]
-        self.categoryName   = "fab"           # [category|group|majorSubtype|lineage|mutations|fab]
+        self.categoryName   = "majorSubtype"           # [category|group|majorSubtype|lineage|mutations|fab]
         self.nanValue       = -.1               # default: float('NaN')
 
         # fix of fix: ignore MDMD categorization
